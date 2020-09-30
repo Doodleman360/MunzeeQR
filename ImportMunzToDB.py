@@ -29,5 +29,5 @@ cur = conn.cursor()
 
 r = requests.get("https://api.munzee.com/user/current", headers={"Authorization": BearerToken})
 pp(r)
-pp(json.load(r.text)["data"])
+pp(r.json["data"])
 
