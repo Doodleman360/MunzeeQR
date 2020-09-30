@@ -26,6 +26,6 @@ except mariadb.Error as e:
 # Get Cursor
 cur = conn.cursor()
 
-r = requests.get("https://api.munzee.com/user/current", headers={"Authorization:" + BearerToken})
+r = requests.get("https://api.munzee.com/user/current", headers={"Authorization": BearerToken})
 print(r)
 print(r.text)
