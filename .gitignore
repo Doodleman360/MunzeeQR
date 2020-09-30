@@ -139,6 +139,7 @@ cython_debug/
 
 # secret
 credentials.json
+munzcreds.json
 
 #Pycharm
 .idea/
