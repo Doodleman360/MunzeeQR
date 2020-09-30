@@ -70,7 +70,7 @@ while True:
 
         if gps.altitude_m is not None:
             print("Altitude: {} meters".format(gps.altitude_m))
-            text.UpdateText("Alt", "Alt: {}".format(gps.gps.altitude_m))
+            text.UpdateText("Alt", "Alt: {}".format(gps.altitude_m))
         else:
             text.UpdateText("Alt", "Alt: N/A")
 
