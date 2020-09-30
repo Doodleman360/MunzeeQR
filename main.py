@@ -5,9 +5,38 @@ import adafruit_gps
 import serial
 import qrcode
 from papirus import PapirusTextPos
+import mariadb
+import sys
+import json
 
+# setup for gps
 uart = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=10)
+
+# setup eInk display
 text = PapirusTextPos(False)
+
+# auth json file
+auth = json.load(open('credentials.json'))
+# keys
+user = auth["user"]
+passwd = auth["pass"]
+
+# Connect to MariaDB Platform
+try:
+    conn = mariadb.connect(
+        user=user,
+        password=passwd,
+        host="localhost",
+        port=3306,
+        database="munz"
+
+    )
+except mariadb.Error as e:
+    print(f"Error connecting to MariaDB Platform: {e}")
+    sys.exit(1)
+
+# Get Cursor
+cur = conn.cursor()
 
 # Create a GPS module instance.
 gps = adafruit_gps.GPS(uart, debug=False)
@@ -22,10 +51,10 @@ gps.send_command(b"PMTK220,1000")
 
 # Main loop
 last_print = time.monotonic()
-text.AddText("Waiting", Id="Top")
-text.AddText("", 0, 20, Id="Sat")
-text.AddText("", 0, 40, Id="Alt")
-text.AddText("", 0, 60, Id="Speed")
+text.AddText("Waiting", Id="1")
+text.AddText("", 0, 20, Id="2")
+text.AddText("", 0, 40, Id="3")
+text.AddText("", 0, 60, Id="4")
 text.WriteAll()
 waiting = True
 while True:
@@ -38,14 +67,14 @@ while True:
             # Try again if we don't have a fix yet.
             print("Waiting for fix...")
             if waiting is False:
-                text.UpdateText("Top", "Waiting")
-                text.UpdateText("Sat", "")
-                text.UpdateText("Alt", "")
-                text.UpdateText("Speed", "")
+                text.UpdateText("1", "Waiting")
+                text.UpdateText("2", "")
+                text.UpdateText("3", "")
+                text.UpdateText("4", "")
                 text.WriteAll()
                 waiting = True
             continue
-        text.UpdateText("Top", "We have a fix!")
+        text.UpdateText("1", "We have a fix!")
         waiting = False
         # We have a fix! (gps.has_fix is true)
         # Print out details about the fix like location, date, etc.
@@ -67,21 +96,21 @@ while True:
         # and might not be present.  Check if they're None before trying to use!
         if gps.satellites is not None:
             print("# satellites: {}".format(gps.satellites))
-            text.UpdateText("Sat", "Sat: {}".format(gps.satellites))
+            text.UpdateText("2", "Sat: {}".format(gps.satellites))
         else:
-            text.UpdateText("Sat", "Sat: 0")
+            text.UpdateText("2", "Sat: 0")
 
         if gps.altitude_m is not None:
             print("Altitude: {} meters".format(gps.altitude_m))
-            text.UpdateText("Alt", "Alt: {}".format(gps.altitude_m))
+            text.UpdateText("3", "Alt: {}".format(gps.altitude_m))
         else:
-            text.UpdateText("Alt", "Alt: N/A")
+            text.UpdateText("3", "Alt: N/A")
 
         if gps.speed_knots is not None:
             print("Speed: {} knots".format(gps.speed_knots))
-            text.UpdateText("Speed", "Speed: {}".format(gps.speed_knots))
+            text.UpdateText("4", "Speed: {}".format(gps.speed_knots))
         else:
-            text.UpdateText("Speed", "Speed: 0")
+            text.UpdateText("4", "Speed: 0")
 
         if gps.track_angle_deg is not None:
             print("Track angle: {} degrees".format(gps.track_angle_deg))
