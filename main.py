@@ -22,8 +22,10 @@ gps.send_command(b"PMTK220,1000")
 
 # Main loop
 last_print = time.monotonic()
-text.AddText("# sat:", 0, 20, Id="sat")
 text.AddText("Waiting", Id="Top")
+text.AddText("# sat:", 0, 20, Id="Sat")
+text.AddText("Alt:", 0, 40, Id="Alt")
+text.AddText("Speed:", 0, 60, Id="Speed")
 text.WriteAll()
 waiting = True
 while True:
@@ -41,7 +43,6 @@ while True:
                 waiting = True
             continue
         text.UpdateText("Top", "We have a fix!")
-        text.WriteAll()
         waiting = False
         # We have a fix! (gps.has_fix is true)
         # Print out details about the fix like location, date, etc.
@@ -63,14 +64,29 @@ while True:
         # and might not be present.  Check if they're None before trying to use!
         if gps.satellites is not None:
             print("# satellites: {}".format(gps.satellites))
-            text.UpdateText("sat", "# sat: {}".format(gps.satellites))
+            text.UpdateText("Sat", "# sat: {}".format(gps.satellites))
+        else:
+            text.UpdateText("Sat", "# sat: 0")
+
         if gps.altitude_m is not None:
             print("Altitude: {} meters".format(gps.altitude_m))
+            text.UpdateText("Alt", "Alt: {}".format(gps.gps.altitude_m))
+        else:
+            text.UpdateText("Alt", "Alt: N/A")
+
         if gps.speed_knots is not None:
             print("Speed: {} knots".format(gps.speed_knots))
+            text.UpdateText("Speed", "Speed: {}".format(gps.speed_knots))
+        else:
+            text.UpdateText("Speed", "Speed: 0")
+
         if gps.track_angle_deg is not None:
             print("Track angle: {} degrees".format(gps.track_angle_deg))
+
         if gps.horizontal_dilution is not None:
             print("Horizontal dilution: {}".format(gps.horizontal_dilution))
+
         if gps.height_geoid is not None:
             print("Height geo ID: {} meters".format(gps.height_geoid))
+
+        text.WriteAll()
