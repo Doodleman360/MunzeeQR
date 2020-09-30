@@ -23,7 +23,7 @@ gps.send_command(b"PMTK220,1000")
 # Main loop
 last_print = time.monotonic()
 text.AddText("Waiting", Id="Top")
-text.AddText("# sat:", 0, 20, Id="Sat")
+text.AddText("Sat:", 0, 20, Id="Sat")
 text.AddText("Alt:", 0, 40, Id="Alt")
 text.AddText("Speed:", 0, 60, Id="Speed")
 text.WriteAll()
@@ -64,9 +64,9 @@ while True:
         # and might not be present.  Check if they're None before trying to use!
         if gps.satellites is not None:
             print("# satellites: {}".format(gps.satellites))
-            text.UpdateText("Sat", "# sat: {}".format(gps.satellites))
+            text.UpdateText("Sat", "Sat: {}".format(gps.satellites))
         else:
-            text.UpdateText("Sat", "# sat: 0")
+            text.UpdateText("Sat", "Sat: 0")
 
         if gps.altitude_m is not None:
             print("Altitude: {} meters".format(gps.altitude_m))
