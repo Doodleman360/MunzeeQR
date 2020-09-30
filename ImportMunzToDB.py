@@ -2,6 +2,7 @@ import requests
 import json
 import mariadb
 import sys
+from pprintpp import pprint as pp
 
 auth = json.load(open('credentials.json'))
 munzAuth = json.load(open('munzcreds.json'))
@@ -27,5 +28,6 @@ except mariadb.Error as e:
 cur = conn.cursor()
 
 r = requests.get("https://api.munzee.com/user/current", headers={"Authorization": BearerToken})
-print(r)
-print(r.text)
+pp(r)
+pp(r.text)
+
