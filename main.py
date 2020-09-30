@@ -32,7 +32,7 @@ while True:
     gps.update()
     # Every 5 seconds print out current location details if there's a fix.
     current = time.monotonic()
-    if (current - last_print >= 5.0):
+    if (current - last_print >= 10.0):
         last_print = current
         if not gps.has_fix:
             # Try again if we don't have a fix yet.
