@@ -23,9 +23,9 @@ gps.send_command(b"PMTK220,1000")
 # Main loop
 last_print = time.monotonic()
 text.AddText("Waiting", Id="Top")
-text.AddText("Sat:", 0, 20, Id="Sat")
-text.AddText("Alt:", 0, 40, Id="Alt")
-text.AddText("Speed:", 0, 60, Id="Speed")
+text.AddText("", 0, 20, Id="Sat")
+text.AddText("", 0, 40, Id="Alt")
+text.AddText("", 0, 60, Id="Speed")
 text.WriteAll()
 waiting = True
 while True:
@@ -38,7 +38,10 @@ while True:
             # Try again if we don't have a fix yet.
             print("Waiting for fix...")
             if waiting is False:
-                text.UpdateText("Top", "Waiting for fix...")
+                text.UpdateText("Top", "Waiting")
+                text.UpdateText("Sat", "")
+                text.UpdateText("Alt", "")
+                text.UpdateText("Speed", "")
                 text.WriteAll()
                 waiting = True
             continue
