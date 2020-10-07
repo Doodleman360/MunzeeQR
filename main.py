@@ -51,7 +51,7 @@ gps.send_command(b"PMTK220,1000")
 
 # Main loop
 last_print = time.monotonic()
-text.AddText("Waiting", Id="1")
+text.AddText("Initializing", Id="1")
 text.AddText("", 0, 20, Id="2")
 text.AddText("", 0, 40, Id="3")
 text.AddText("", 0, 60, Id="4")
@@ -74,7 +74,7 @@ while True:
                 text.WriteAll()
                 waiting = True
             continue
-        text.UpdateText("1", "We have a fix!")
+        text.UpdateText("1", "{:02}:{:02}:{:02}".format(gps.timestamp_utc.tm_hour, gps.timestamp_utc.tm_min, gps.timestamp_utc.tm_sec))
         waiting = False
         # We have a fix! (gps.has_fix is true)
         # Print out details about the fix like location, date, etc.
