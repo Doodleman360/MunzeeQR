@@ -108,9 +108,9 @@ while True:
 
         if gps.speed_knots is not None:
             print("Speed: {} knots".format(gps.speed_knots))
-            text.UpdateText("4", "Speed: {}".format(gps.speed_knots))
+            text.UpdateText("4", "{} mph".format(gps.speed_knots*1.151))
         else:
-            text.UpdateText("4", "Speed: 0")
+            text.UpdateText("4", "0 mph")
 
         if gps.track_angle_deg is not None:
             print("Track angle: {} degrees".format(gps.track_angle_deg))
