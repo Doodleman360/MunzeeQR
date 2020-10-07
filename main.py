@@ -108,7 +108,7 @@ while True:
 
         if gps.speed_knots is not None:
             print("Speed: {} knots".format(gps.speed_knots))
-            text.UpdateText("4", "{} mph".format(gps.speed_knots*1.151))
+            text.UpdateText("4", "{} mph".format(round(gps.speed_knots*1.151,2)))
         else:
             text.UpdateText("4", "0 mph")
 
